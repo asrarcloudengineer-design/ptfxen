@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dr. Ehtesham Syed | MBBS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* SF Pro / System Font Stack + Montserrat for About Me */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #fbfbfd;
+            color: #1d1d1f;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 1. Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Specific font class for About Me */
+        .font-montserrat-bold {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* --- Apple Style Mesh Gradient Background --- */
+        .mesh-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+            background: #fbfbfd;
+        }
+
+        .mesh-blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.6;
+            border-radius: 50%;
+            animation: floatBlob 20s infinite ease-in-out alternate;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(168, 192, 255, 0.4) 0%, rgba(63, 43, 150, 0) 70%);
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(217, 175, 217, 0.3) 0%, rgba(151, 217, 225, 0) 70%);
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(144, 247, 236, 0.2) 0%, rgba(50, 204, 188, 0) 70%);
+            animation-delay: -10s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* --- Glassmorphism Utilities (UPGRADED) --- */
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.05),
+                0 1px 2px 0 rgba(31, 38, 135, 0.02),
+                inset 0 0 20px rgba(255, 255, 255, 0.5); /* Inner glow */
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Soft Gradient Glowing Panel for About Me */
+        .soft-glow-panel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(245, 250, 255, 0.6));
+            backdrop-filter: blur(40px) saturate(140%);
+            -webkit-backdrop-filter: blur(40px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            /* Soft breathing glow */
+            animation: softGlow 6s infinite ease-in-out alternate;
+        }
+
+        @keyframes softGlow {
+            0% {
+                box-shadow: 
+                    0 15px 40px -10px rgba(59, 130, 246, 0.1), 
+                    inset 0 0 30px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                box-shadow: 
+                    0 25px 70px -10px rgba(168, 85, 247, 0.15), 
+                    inset 0 0 50px rgba(230, 240, 255, 0.5);
+            }
+        }
+        
+        .header-glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        /* 2. Microinteractions: Button Glow & Apple Underline */
+        .glass-button {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(150%);
+            -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Gradient Shine Effect on Hover */
+        .glass-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transition: 0.5s;
+        }
+        .glass-button:hover::before {
+            left: 100%;
+        }
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 10px 30px -5px rgba(59, 130, 246, 0.25),
+                inset 0 0 20px rgba(255, 255, 255, 0.9);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        /* --- NEW: Magnifying Header Text Effect --- */
+        .magnify-header-text {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.4s ease;
+            display: inline-block;
+            cursor: default;
+            transform-origin: center;
+        }
+        
+        .magnify-header-text:hover {
+            transform: scale(1.15); /* Magnify Scale */
+            text-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Lift shadow */
+            filter: brightness(1.1);
+        }
+
+        /* Glass Timeline Dots */
+        .glass-dot-blue {
+            background: radial-gradient(circle at 30% 30%, rgba(147, 197, 253, 0.9), rgba(59, 130, 246, 0.9));
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), inset 0 0 6px rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .glass-dot-purple {
+            background: radial-gradient(circle at 30% 30%, rgba(216, 180, 254, 0.9), rgba(168, 85, 247, 0.9));
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.5), inset 0 0 6px rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .glass-dot-green {
+            background: radial-gradient(circle at 30% 30%, rgba(134, 239, 172, 0.9), rgba(34, 197, 94, 0.9));
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5), inset 0 0 6px rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Gradient Text Utility */
+        .text-gradient-subtle {
+            background: linear-gradient(135deg, #1d1d1f 0%, #434344 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-fill-anim {
+            position: relative;
+            color: rgba(0,0,0,0.1); 
+            -webkit-text-stroke: 1px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #1d1d1f 0%, #3b3b3c 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-size: 100% 0%; 
+            background-repeat: no-repeat;
+            transition: background-size 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+            animation: fillText 2s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.5s;
+        }
+
+        @keyframes fillText {
+            to { background-size: 100% 100%; color: transparent; }
+        }
+
+        /* --- Hero Image Wrapper (Mobile Optimized) --- */
+        .hero-image-wrapper {
+            margin: 0 auto 0 auto;
+            display: flex;
+            justify-content: center;
+            opacity: 0; 
+            transform: scale(0.95);
+            position: relative; 
+            height: 85vh; /* Taller for Mobile */
+            width: 100%;
+            max-width: 1200px;
+            align-items: flex-end; 
+            padding-bottom: 2vh;
+            z-index: 50; 
+            overflow: hidden; /* Ensure big image doesn't break layout */
+        }
+        
+        @media (min-width: 768px) {
+            .hero-image-wrapper {
+                height: 80vh;
+                align-items: flex-end;
+                overflow: visible;
+            }
+        }
+        
+        .hero-image {
+            /* Mobile: Scale up to cover white space */
+            height: 92%;
+            width: auto;
+            max-width: none; /* Allow exceeding width on mobile */
+            object-fit: cover;
+            /* Fade Mask */
+            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            z-index: 10; 
+            position: relative;
+            will-change: transform; 
+        }
+        
+        @media (min-width: 768px) {
+             .hero-image {
+                max-width: 600px;
+                height: auto;
+                max-height: 100%;
+                object-fit: contain;
+             }
+        }
+
+        @keyframes float-idle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); } 
+        }
+        
+        .animate-float {
+            animation: float-idle 7s ease-in-out infinite; 
+        }
+
+        /* Glow effect behind image */
+        .hero-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120vw; /* Wider on mobile */
+            height: 120vw;
+            max-width: 700px;
+            max-height: 700px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(255,255,255,0) 70%); 
+            z-index: -1;
+            pointer-events: none;
+            animation: pulse-glow 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        /* --- NEW: Journey Lens Card (Magnifying Glass Effect) --- */
+        .journey-lens-card {
+            background: radial-gradient(140% 140% at 50% 0%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 20px 40px -10px rgba(0, 0, 0, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 1.5rem; /* Reduced padding for mobile */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        @media (min-width: 768px) {
+            .journey-lens-card { padding: 2.5rem; }
+        }
+
+        .journey-lens-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 40%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 100%);
+            pointer-events: none;
+            border-radius: 28px 28px 0 0;
+        }
+
+        .journey-lens-card:hover {
+            transform: scale(1.03) translateY(-5px);
+            background: radial-gradient(140% 140% at 50% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+            box-shadow: 
+                0 30px 60px -15px rgba(0, 0, 0, 0.4),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+            z-index: 10;
+        }
+
+        /* Bento Grid */
+        .bento-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+        @media (min-width: 768px) {
+            .bento-container {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(4, 150px);
+                gap: 1rem;
+            }
+        }
+        .skill-card {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        @media (min-width: 768px) {
+            .skill-card { padding: 1.5rem; }
+        }
+        .skill-card:hover {
+            transform: translateY(-6px) scale(1.01); 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            box-shadow: 
+                0 20px 40px -5px rgba(0, 0, 0, 0.05),
+                0 10px 15px -5px rgba(59, 130, 246, 0.15),
+                inset 0 0 20px rgba(255, 255, 255, 0.8); 
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        .card-featured {
+            grid-column: span 2;
+            grid-row: span 2;
+            background: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+        }
+        @media (max-width: 767px) {
+            .card-featured { grid-column: span 2; min-height: 200px; }
+        }
+
+        .ekg-svg { position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; opacity: 0.3; transition: opacity 0.3s; }
+        .skill-card:hover .ekg-svg { opacity: 1; }
+        .ekg-path { fill: none; stroke: #ef4444; stroke-width: 2; stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 2s linear; }
+        .skill-card:hover .ekg-path { animation: drawLine 2s linear infinite; }
+        @keyframes drawLine { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+
+        /* Utilities */
+        .fade-up { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            filter: blur(10px); 
+        }
+        
+        .srtr-pop { opacity: 0; transform: translateY(20px); }
+        .medical-cross-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            font-size: 20rem;
+            color: rgba(59, 130, 246, 0.03);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Animated Highlight for Internship Exposure */
+        .glow-box {
+            position: relative;
+            background: rgba(34, 197, 94, 0.03); 
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.05);
+            animation: glowPulse 4s infinite ease-in-out;
+            backdrop-filter: blur(5px);
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% { 
+                box-shadow: 0 0 15px rgba(34, 197, 94, 0.05); 
+                border-color: rgba(34, 197, 94, 0.2); 
+                background: rgba(34, 197, 94, 0.03);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(34, 197, 94, 0.15); 
+                border-color: rgba(34, 197, 94, 0.5); 
+                background: rgba(34, 197, 94, 0.06);
+            }
+        }
+
+        .dark-content-glow {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+        
+        .content-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+        .glow-blue { background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(255,255,255,0) 70%); }
+        .glow-teal { background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, rgba(255,255,255,0) 70%); }
+
+        /* Journey Morphing Text Classes */
+        .journey-morph-title { opacity: 0; }
+        .journey-morph-content { opacity: 0; }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Apple Style Dynamic Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-blob blob-1"></div>
+        <div class="mesh-blob blob-2"></div>
+        <div class="mesh-blob blob-3"></div>
+    </div>
+
+    <!-- Locked Header -->
+    <nav class="fixed top-0 w-full z-40 px-4 md:px-8 py-4 flex justify-between items-center header-glass">
+        <div class="flex items-center text-gray-900 pr-4">
+            <!-- Apply magnify-header-text class for magnifying effect -->
+            <div class="magnify-header-text text-sm md:text-lg font-bold tracking-widest uppercase truncate ml-2 text-gradient-subtle">
+                Dr. Ehtesham Syed
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <!-- LinkedIn Button -->
+            <a href="https://www.linkedin.com/in/dr-ehtesham-syed-8b4a30371/?originalSubdomain=in" target="_blank" rel="noopener noreferrer" 
+               class="glass-button rounded-full p-2 text-gray-800 flex items-center justify-center group"
+               aria-label="LinkedIn Profile">
+                <svg class="w-4 h-4 group-hover:text-[#0077b5] transition-colors duration-300 relative z-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+
+            <a href="mailto:drehteshamsyed@gmail.com?subject=I%20have%20just%20checked%20your%20portfolio&body=Hi%20Dr.%20Syed," 
+               class="glass-button rounded-full px-5 py-2 text-xs md:text-sm font-medium text-gray-800 flex items-center gap-2 whitespace-nowrap">
+                <span class="relative z-10">Contact Me</span>
+                <svg class="relative z-10" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <main class="relative w-full pt-20">
+
+        <!-- HERO SECTION -->
+        <section id="section-hero" class="min-h-screen flex flex-col justify-start items-center text-center px-4 relative pt-10 md:pt-4 overflow-hidden">
+            
+            <!-- Hero Image Wrapper with Background MBBS Text -->
+            <div class="hero-image-wrapper">
+                <div class="hero-glow"></div>
+                
+                <!-- BACKGROUND TEXT -->
+                <div class="absolute bottom-0 md:bottom-10 left-1/2 transform -translate-x-1/2 w-full text-center z-0 select-none pointer-events-none">
+                    <div class="relative inline-block">
+                        <!-- MBBS Text with Shutter Reveal -->
+                        <div class="mbbs-shutter-container relative overflow-hidden inline-block">
+                            <!-- Mobile-Optimized Text Size: Increased to 35vw to fill space -->
+                            <h1 class="mbbs-shutter-text text-[35vw] md:text-[25vw] leading-none font-black tracking-tighter text-gray-300 opacity-0 drop-shadow-sm relative z-10">
+                                MBBS
+                            </h1>
+                            <!-- Shutter Block -->
+                            <div class="mbbs-shutter-block absolute top-0 left-0 w-full h-full bg-gray-300 z-20 origin-left transform scale-x-0"></div>
+                        </div>
+
+                        <!-- Adjusted Bottom Text Positioning to avoid overlap -->
+                        <p class="srtr-pop absolute -top-4 md:-top-6 right-0 md:-right-4 text-[3vw] md:text-lg font-medium text-gray-400 tracking-widest uppercase whitespace-nowrap">
+                            SRTR GMC AMBAJOGAI
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Image (Sits on top of text) -->
+                <!-- Added animate-float class for alive feeling -->
+                <img src="https://lh3.googleusercontent.com/d/1dsEOb2xxWBUAKsmw73H96oFJ4kufJJrF" 
+                        class="hero-image animate-float" 
+                        alt="Dr. Ehtesham Syed">
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="max-w-5xl mx-auto space-y-4 -mt-4 relative z-30 pb-20">
+                <p class="fade-up text-xs text-gray-400 font-light mt-8 animate-bounce tracking-widest uppercase">Scroll to explore</p>
+            </div>
+        </section>
+
+        <!-- ABOUT ME SECTION -->
+        <section id="section-about" class="py-24 px-6 md:px-12 max-w-5xl mx-auto text-center relative">
+            <!-- Ultra-soft Gradient Behind Content -->
+            <div class="content-glow glow-blue top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 reveal-text mb-12 relative z-10">About Me</h2>
+            
+            <!-- Using soft-glow-panel for the requested effect -->
+            <div class="soft-glow-panel p-8 md:p-12 rounded-3xl reveal-text relative overflow-hidden">
+                <div class="medical-cross-bg">✚</div>
+                <div class="relative z-10 flex flex-col items-center text-center">
+                    <div class="space-y-6 text-gray-800 leading-relaxed text-lg md:text-xl font-montserrat-bold">
+                        <p>
+                            My name is Dr. Ehtesham Syed. I am an MBBS graduate with one year of clinical experience. I speak Hindi, Marathi, and English, which helps me connect easily with many people.
+                        </p>
+                        <p>
+                            I work with focus, clarity, and patience. I believe in giving my patients clear guidance and honest care. I stay updated, learn fast, and adapt quickly in any medical setting.
+                        </p>
+                        <p>
+                            My goal is to grow every day as a doctor and serve my patients with skill, confidence, and compassion.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION & INTERNSHIP -->
+        <section id="section-journey" class="py-32 px-4 relative bg-black text-white overflow-hidden rounded-t-[3rem]">
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+                <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600 rounded-full blur-[120px] opacity-20"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600 rounded-full blur-[120px] opacity-20"></div>
+            </div>
+
+            <div class="relative z-10 max-w-6xl mx-auto">
+                
+                <!-- SHUTTER REVEAL TITLE -->
+                <div class="text-center mb-24">
+                    <h2 class="journey-shutter-container text-4xl md:text-6xl font-bold tracking-tight inline-block relative overflow-hidden px-4 py-2">
+                        <!-- Text starts invisible (opacity 0) -->
+                        <span class="journey-shutter-text relative z-10 opacity-0">The Journey</span>
+                        <!-- Shutter Block -->
+                        <div class="journey-shutter-block absolute top-0 left-0 w-full h-full bg-white z-20 origin-left transform scale-x-0"></div>
+                    </h2>
+                </div>
+
+                <div class="space-y-32 relative font-system">
+                    <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-500 to-transparent"></div>
+
+                    <!-- Item 1: College -->
+                    <div class="timeline-item flex flex-col md:flex-row items-center gap-8 md:gap-24 relative">
+                        <div class="w-full md:w-1/2 md:text-right order-2 md:order-1 px-4 md:px-0 pl-16 md:pl-0 relative">
+                            <!-- Lens Card Wrapper -->
+                            <div class="journey-lens-card inline-block text-left md:text-right w-full">
+                                <div class="dark-content-glow"></div>
+                                <h3 class="journey-morph-title text-3xl md:text-4xl font-extrabold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white drop-shadow-sm font-montserrat-bold">
+                                    MBBS Program
+                                </h3>
+                                <div class="journey-morph-content">
+                                    <p class="text-blue-200 font-mono font-bold text-lg mb-4 tracking-wide">2019 — 2025</p>
+                                    <p class="text-white font-bold leading-relaxed text-lg md:text-xl">
+                                        Completed comprehensive medical training with a strong foundation in the core medical sciences. Developed the knowledge and skills necessary for effective patient care and further clinical training.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-4 md:left-1/2 transform -translate-x-[5px] md:-translate-x-1/2 z-10 w-4 h-4 rounded-full glass-dot-blue order-1 md:order-2"></div>
+                        <div class="w-full md:w-1/2 order-3 px-8 md:px-0"></div>
+                    </div>
+
+                    <!-- Item 2: Internship -->
+                    <div class="timeline-item flex flex-col md:flex-row items-center gap-8 md:gap-24 relative">
+                        <div class="w-full md:w-1/2 order-3 md:order-1 px-8 md:px-0"></div>
+                        <div class="absolute left-4 md:left-1/2 transform -translate-x-[5px] md:-translate-x-1/2 z-10 w-4 h-4 rounded-full glass-dot-purple order-1 md:order-2"></div>
+                        <div class="w-full md:w-1/2 order-2 md:order-3 px-4 md:px-0 pl-16 md:pl-0 relative">
+                            <!-- Lens Card Wrapper -->
+                            <div class="journey-lens-card inline-block w-full">
+                                <div class="dark-content-glow" style="background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 60%);"></div>
+                                <h3 class="journey-morph-title text-3xl md:text-4xl font-extrabold mb-3 text-transparent bg-clip-text bg-gradient-to-l from-purple-200 to-white drop-shadow-sm font-montserrat-bold">
+                                    Internship Period
+                                </h3>
+                                <div class="journey-morph-content">
+                                    <p class="text-purple-200 font-mono font-bold text-lg mb-4 tracking-wide">2024 — 2025</p>
+                                    <p class="text-white font-bold leading-relaxed text-lg md:text-xl">
+                                        I worked in different hospital departments during my clinical rotations. I improved my skills in examining patients, making diagnoses, giving treatments, and handling medical emergencies.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: Internship Exposure (Highlighted) -->
+                    <div class="timeline-item flex flex-col md:flex-row items-center gap-8 md:gap-24 relative">
+                         <div class="w-full md:w-1/2 md:text-right order-2 md:order-1 px-4 md:px-0 pl-16 md:pl-0">
+                            <!-- Lens Card Wrapper (with Glow Box styling integrated) -->
+                            <div class="journey-lens-card inline-block text-left md:text-right w-full" style="border-color: rgba(34, 197, 94, 0.5); background: radial-gradient(140% 140% at 50% 0%, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.02) 100%);">
+                                <h3 class="journey-morph-title text-3xl md:text-4xl font-extrabold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-green-200 to-white drop-shadow-sm font-montserrat-bold">
+                                    Internship Exposure
+                                </h3>
+                                <div class="journey-morph-content">
+                                    <p class="mt-2 text-white font-bold leading-relaxed text-lg md:text-xl">
+                                        I helped care for more than <span class="text-green-300 font-extrabold">500 patients</span> during my internship. This included:
+                                    </p>
+                                    <ul class="text-gray-100 text-base md:text-lg mt-6 list-none space-y-3 inline-block text-left md:text-right font-semibold leading-relaxed">
+                                         <li>• <strong class="text-white font-extrabold">talking to patients</strong> to understand their health problems</li>
+                                         <li>• doing <strong class="text-white font-extrabold">physical exams</strong></li>
+                                         <li>• helping doctors make <strong class="text-white font-extrabold">decisions</strong> about tests and treatments</li>
+                                         <li>• <strong class="text-white font-extrabold">observing and assisting</strong> in procedures</li>
+                                         <li>• <strong class="text-white font-extrabold">managing patients</strong> in wards, outpatient clinics, and emergency rooms</li>
+                                         <li>• learning how to <strong class="text-white font-extrabold">work with nurses, senior doctors</strong>, and other staff</li>
+                                    </ul>
+                                    <p class="mt-8 text-gray-100 font-bold leading-relaxed text-base md:text-lg italic border-t border-white/20 pt-6">
+                                        This experience helped me become more <span class="text-white font-extrabold">confident</span>, <span class="text-white font-extrabold">responsible</span>, and <span class="text-white font-extrabold">comfortable</span> working in real clinical settings.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-4 md:left-1/2 transform -translate-x-[5px] md:-translate-x-1/2 z-10 w-4 h-4 rounded-full glass-dot-green order-1 md:order-2"></div>
+                        
+                        <!-- Certificate Images Container (Stacked Layout) -->
+                        <div class="w-full md:w-1/2 order-3 px-8 md:px-0">
+                            <div class="flex flex-col gap-8">
+                                
+                                <!-- Certificate 1 -->
+                                <div class="glass-panel p-2 rounded-2xl transform transition-transform duration-500 hover:scale-105 cursor-pointer">
+                                    <div class="cert-reveal-wrapper relative overflow-hidden rounded-xl bg-gray-900 shadow-sm">
+                                        <img src="https://lh3.googleusercontent.com/d/1h6s4CoJELTARcmGS_auC4C7r_sSndLSA" 
+                                             alt="Internship Certificate 1" 
+                                             class="cert-image w-full h-auto object-cover rounded-xl shadow-2xl">
+                                    </div>
+                                </div>
+
+                                <!-- Certificate 2 -->
+                                <div class="glass-panel p-2 rounded-2xl transform transition-transform duration-500 hover:scale-105 cursor-pointer">
+                                    <div class="cert-reveal-wrapper relative overflow-hidden rounded-xl bg-gray-900 shadow-sm">
+                                        <img src="https://lh3.googleusercontent.com/d/1Za5Hcr0uQJ95e_NwmM8eiqE4yTLyAR2h" 
+                                             alt="Internship Certificate 2" 
+                                             class="cert-image w-full h-auto object-cover rounded-xl shadow-2xl">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CORE EXPERTISE -->
+        <section id="section-expertise" class="min-h-screen py-32 px-4 flex flex-col justify-center items-center relative overflow-hidden bg-[#fbfbfd]">
+            <!-- Soft Gradients Behind Grid -->
+            <div class="content-glow glow-teal top-1/2 right-0 -translate-y-1/2 translate-x-1/4"></div>
+            <div class="content-glow glow-blue bottom-0 left-0 -translate-x-1/4 translate-y-1/4"></div>
+
+            <div class="text-center mb-16 relative z-10">
+                <!-- Updated Title with Morph Class -->
+                <h2 class="morph-text text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">Clinical Skills</h2>
+                <p class="text-gray-500">Core competencies & specialized skills</p>
+            </div>
+
+            <div class="bento-container w-full" id="expert-grid">
+                <!-- Cards injected via JS -->
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-[#1d1d1f] text-white pt-24 pb-12 px-6 relative overflow-hidden">
+            <!-- Subtle Background Glow -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-4xl bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none opacity-50"></div>
+
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-12">
+                    
+                    <!-- Left: Branding / Statement -->
+                    <div class="space-y-6 max-w-md text-center md:text-left">
+                        <!-- Removed Headline -->
+                        <p class="text-gray-300 leading-relaxed font-light text-lg">
+                            Dedicated to providing compassionate care and medical excellence. Open to clinical opportunities and collaborations.
+                        </p>
+                        
+                        <!-- Availability Badge -->
+                        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+                            <span class="relative flex h-2 w-2">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <span class="text-xs font-semibold text-gray-300 uppercase tracking-widest">Available for Practice</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Contact Only -->
+                    <div class="w-full md:w-auto text-center md:text-left">
+                        <div class="space-y-4">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Get in Touch</h4>
+                            <a href="mailto:drehteshamsyed@gmail.com" class="block text-2xl md:text-3xl text-white font-semibold hover:text-blue-400 transition-colors">
+                                drehteshamsyed@gmail.com
+                            </a>
+                            <a href="https://www.linkedin.com/in/dr-ehtesham-syed-8b4a30371/?originalSubdomain=in" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors group justify-center md:justify-start">
+                                <span class="group-hover:underline">Connect on LinkedIn</span>
+                                <svg class="w-3 h-3 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="h-px w-full bg-white/10 my-12"></div>
+
+                <!-- Bottom Footer -->
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 font-medium">
+                    <p>&copy; 2025 Dr. Ehtesham Syed. All rights reserved.</p>
+                    
+                    <!-- Designer Credit Interaction -->
+                    <a href="mailto:creativeasrar@gmail.com" class="group grid place-items-center md:place-items-end overflow-hidden" aria-label="Designed by Asrar Creative">
+                        <span class="col-start-1 row-start-1 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-full group-hover:opacity-0">
+                            Designed by
+                        </span>
+                        <span class="col-start-1 row-start-1 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 flex gap-2 whitespace-nowrap">
+                            <!-- Gradient Bluish Text -->
+                            <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">ASRAR CREATIVE</span>
+                            <span class="text-gray-500">creativeasrar@gmail.com</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Standard JS for DOM Animations -->
+    <script>
+        // --- 1. POPULATE EXPERTISE GRID --- //
+        const setupGrid = () => {
+            const container = document.getElementById('expert-grid');
+            const skills = [
+                { name: "Minor Surgery", icon: "✂️" },
+                { name: "Paediatrics", icon: "👶" },
+                { name: "General Medicine", icon: "🩺", featured: true },
+                { name: "Primary Care", icon: "🏥" },
+                { name: "Healthcare Mgmt", icon: "📋" },
+                { name: "Leadership", icon: "👔" },
+                { name: "Family Medicine", icon: "👨‍👩‍👧‍👦" },
+                { name: "BLS", icon: "💓" },
+                { name: "ACLS", icon: "⚡" },
+                { name: "Communication", icon: "💬" },
+                { name: "Suturing", icon: "🧵" }
+            ];
+
+            const ekgSvg = `
+                <svg class="ekg-svg" viewBox="0 0 500 100" preserveAspectRatio="none">
+                    <path class="ekg-path" d="M0,50 L50,50 L60,20 L70,80 L80,50 L120,50 L130,10 L150,90 L160,50 L200,50 L210,30 L220,70 L230,50 L500,50" />
+                </svg>
+            `;
+
+            skills.forEach((skill) => {
+                const card = document.createElement('div');
+                card.className = `skill-card glass-panel ${skill.featured ? 'card-featured' : ''}`;
+                card.innerHTML = `
+                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none">
+                        <div class="text-3xl md:text-4xl mb-4 opacity-80 scale-icon transition-transform duration-500">${skill.icon}</div>
+                        <div>
+                            <h3 class="text-lg ${skill.featured ? 'md:text-4xl' : 'md:text-lg'} font-bold text-gray-800 tracking-tight leading-none">${skill.name}</h3>
+                            ${skill.featured ? '<p class="text-xs md:text-sm text-gray-500 mt-2 font-light">Comprehensive Diagnostic & Therapeutic Expertise</p>' : ''}
+                        </div>
+                    </div>
+                    ${ekgSvg}
+                `;
+                container.appendChild(card);
+            });
+        };
+
+        // --- 2. GSAP ANIMATIONS --- //
+        const setupAnimations = () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Special dynamic entrance for Hero Image Wrapper
+            gsap.to(".hero-image-wrapper", {
+                opacity: 1,
+                scale: 1,
+                duration: 1.8,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // --- MBBS SHUTTER REVEAL ---
+            const mbbsTl = gsap.timeline({ delay: 0.5 }); // Start slightly after page load
+
+            mbbsTl.to(".mbbs-shutter-block", {
+                scaleX: 1,
+                duration: 0.6,
+                ease: "power2.inOut",
+                transformOrigin: "left"
+            })
+            .set(".mbbs-shutter-text", { opacity: 1 }) // Reveal text behind block
+            .to(".mbbs-shutter-block", {
+                scaleX: 0,
+                duration: 0.6,
+                ease: "power2.inOut",
+                transformOrigin: "right" // Wipe away to right
+            });
+
+            // 4. Parallax Effect for Hero Image
+            gsap.to(".hero-image", {
+                yPercent: 15,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#section-hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // SRTR Pop Up Animation (Delay slightly to sync with shutter)
+            gsap.to(".srtr-pop", {
+                opacity: 1,
+                y: -15, // Move UP
+                duration: 1.2,
+                ease: "elastic.out(1, 0.5)",
+                delay: 1.8 // Pop up after shutter finishes
+            });
+
+            // Standard fade up for other elements (Softer Easing + Blur)
+            gsap.utils.toArray('.fade-up').forEach((elem, i) => {
+                gsap.to(elem, {
+                    opacity: 1, 
+                    y: 0, 
+                    filter: "blur(0px)",
+                    duration: 1.5, 
+                    delay: i * 0.1, 
+                    ease: "power2.out"
+                });
+            });
+
+            gsap.from(".reveal-text", {
+                scrollTrigger: { trigger: ".reveal-text", start: "top 85%" },
+                y: 40, opacity: 0, filter: "blur(5px)", duration: 1.2, stagger: 0.2, ease: "power2.out"
+            });
+
+            // --- MORPH TEXT ANIMATION (Clinical Skills) ---
+            gsap.from(".morph-text", {
+                scrollTrigger: { 
+                    trigger: ".morph-text", 
+                    start: "top 85%" 
+                },
+                opacity: 0,
+                filter: "blur(15px)", // Start blurry
+                letterSpacing: "10px", // Start wide
+                y: 20,
+                duration: 1.5,
+                ease: "power3.out" // Snap into place smoothly
+            });
+
+            // --- THE JOURNEY: SHUTTER REVEAL ANIMATION ---
+            const journeyTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".journey-shutter-container",
+                    start: "top 80%",
+                }
+            });
+
+            journeyTl.to(".journey-shutter-block", {
+                scaleX: 1,
+                duration: 0.5,
+                ease: "power2.inOut",
+                transformOrigin: "left"
+            })
+            .set(".journey-shutter-text", { opacity: 1 }) // Turn text on while covered
+            .to(".journey-shutter-block", {
+                scaleX: 0,
+                duration: 0.5,
+                ease: "power2.inOut",
+                transformOrigin: "right" // Wipe away to the right
+            });
+
+            // --- JOURNEY TIMELINE ANIMATIONS (UPDATED WITH MORPH) ---
+            gsap.utils.toArray('.timeline-item').forEach((item, i) => {
+                const title = item.querySelector('.journey-morph-title');
+                const content = item.querySelector('.journey-morph-content');
+                
+                // Timeline for this specific item
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                // 1. Morph Title (Blur + Letter Spacing)
+                tl.fromTo(title, 
+                    { 
+                        opacity: 0, 
+                        filter: "blur(10px)", 
+                        letterSpacing: "5px",
+                        x: i % 2 === 0 ? -20 : 20 // Slight side entrance
+                    },
+                    { 
+                        opacity: 1, 
+                        filter: "blur(0px)", 
+                        letterSpacing: "normal",
+                        x: 0,
+                        duration: 1.5,
+                        ease: "power4.out"
+                    }
+                );
+
+                // 2. Fade/Blur Content
+                if(content) {
+                    tl.fromTo(content,
+                        { 
+                            opacity: 0, 
+                            y: 20,
+                            filter: "blur(5px)"
+                        },
+                        { 
+                            opacity: 1, 
+                            y: 0, 
+                            filter: "blur(0px)",
+                            duration: 1,
+                            ease: "power2.out"
+                        }, 
+                        "-=1.0" // Overlap with title animation
+                    );
+                }
+            });
+
+            const cards = gsap.utils.toArray('.skill-card');
+            gsap.set(cards, { autoAlpha: 0, scale: 0.8, y: 50, filter: "blur(5px)" });
+            
+            // Animation for Cards + Icons popping in
+            ScrollTrigger.batch(cards, {
+                start: "top 90%",
+                onEnter: batch => {
+                    gsap.to(batch, {
+                        autoAlpha: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 1, stagger: 0.1, ease: "power3.out"
+                    });
+                    // Pop icons slightly
+                    batch.forEach(card => {
+                        const icon = card.querySelector('.scale-icon');
+                        if(icon) {
+                            gsap.from(icon, { scale: 0, duration: 0.6, delay: 0.3, ease: "back.out(1.7)" });
+                        }
+                    });
+                },
+                onLeaveBack: batch => gsap.to(batch, {
+                    autoAlpha: 0, scale: 0.8, y: 50, filter: "blur(5px)", duration: 0.5
+                })
+            });
+
+            // --- CERTIFICATE REVEAL ANIMATION ---
+            const certWrappers = document.querySelectorAll('.cert-reveal-wrapper');
+
+            certWrappers.forEach((wrapper) => {
+                const img = wrapper.querySelector('img');
+
+                // Initial State
+                gsap.set(wrapper, { clipPath: "inset(0 100% 0 0)" }); // Hidden from right
+                gsap.set(img, { scale: 1.3, filter: "blur(15px)" }); // Zoomed & Blurred
+
+                // Animate
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: wrapper,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                tl.to(wrapper, {
+                    clipPath: "inset(0 0% 0 0)", // Reveal
+                    duration: 1.5,
+                    ease: "power4.inOut"
+                })
+                .to(img, {
+                    scale: 1,
+                    filter: "blur(0px)",
+                    duration: 1.5,
+                    ease: "power2.out"
+                }, "<"); // Run at same time
+            });
+        };
+
+        // --- MAGNETIC EFFECT (New) ---
+        const initMagneticEffect = () => {
+            // Select elements to apply the magnetic effect to
+            // targeted: header buttons, skill cards, and footer social links if any
+            const magneticElements = document.querySelectorAll('.glass-button, .skill-card');
+
+            magneticElements.forEach((element) => {
+                element.addEventListener('mousemove', (e) => {
+                    const rect = element.getBoundingClientRect();
+                    // Calculate distance from the center of the element
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+
+                    // Strength of the pull (lower is subtle, higher is strong)
+                    // Skill cards get a lighter pull than buttons to preserve layout
+                    const strength = element.classList.contains('skill-card') ? 0.15 : 0.4;
+
+                    gsap.to(element, {
+                        x: x * strength,
+                        y: y * strength,
+                        rotation: x * (strength * 0.1), // Slight tilt
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+
+                element.addEventListener('mouseleave', () => {
+                    // Snap back with elastic bounce
+                    gsap.to(element, {
+                        x: 0,
+                        y: 0,
+                        rotation: 0,
+                        duration: 0.8,
+                        ease: "elastic.out(1, 0.4)"
+                    });
+                });
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupGrid();
+            setupAnimations();
+            initMagneticEffect(); // Initialize magnetic cursor effect
+        });
+    </script>
+</body>
+</html>
