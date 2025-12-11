@@ -847,8 +847,9 @@
 
     <!-- Standard JS for DOM Animations -->
     <script>
-        // --- SECURITY LAYER 3: DISABLE KEYBOARD SHORTCUTS ---
+        // --- SECURITY LAYER 3: DISABLE KEYBOARD SHORTCUTS & OS INTERACTIONS ---
         document.addEventListener('contextmenu', event => event.preventDefault()); // Disable right-click
+        
         document.onkeydown = function(e) {
             // Disable F12, Ctrl+U, Ctrl+Shift+I, Ctrl+S
             if(e.keyCode == 123) return false;
@@ -857,7 +858,45 @@
             if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
             if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
+
+            // --- NEW: Block Print Screen & Windows Key (Taskbar) ---
+            
+            // Block Print Screen (KeyCode 44)
+            if (e.keyCode === 44 || e.key === 'PrintScreen') {
+                // Immediately hide content
+                document.body.style.visibility = 'hidden';
+                document.getElementById('privacy-screen').classList.remove('hidden');
+                
+                // Attempt to clear clipboard (if browser allows)
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(''); 
+                }
+                
+                // Restore after delay
+                setTimeout(() => {
+                    document.body.style.visibility = 'visible';
+                    document.getElementById('privacy-screen').classList.add('hidden');
+                    alert("Screenshots are restricted on this page.");
+                }, 1000);
+                
+                return false;
+            }
+
+            // Block Windows/Meta Key (KeyCode 91, 92) - often opens Start Menu/Taskbar
+            if (e.keyCode === 91 || e.keyCode === 92 || e.key === 'Meta' || e.key === 'OS') {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
         }
+
+        // Additional listener for KeyUp to catch PrtSc in some browsers
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'PrintScreen') {
+                navigator.clipboard.writeText('');
+                alert("Screenshots are restricted.");
+            }
+        });
 
         // --- SECURITY LAYER 4: PRIVACY BLUR (Anti-Screenshot Deterrent) ---
         // Blurs site when user switches windows/tabs (e.g. to open snipping tool)
