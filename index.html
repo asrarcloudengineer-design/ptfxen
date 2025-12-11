@@ -35,35 +35,23 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             
-            /* --- SECURITY LAYER 1: DISABLE SELECTION --- */
+            /* --- SECURITY LAYER 1: SILENT SELECTION DISABLING --- */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
 
-        /* --- SECURITY LAYER 2: DISABLE IMAGE DRAGGING/INTERACTION --- */
+        /* --- SECURITY LAYER 2: DISABLE IMAGE INTERACTION --- */
         img {
-            pointer-events: none;
-            -webkit-user-drag: none;
+            pointer-events: none; /* Disables right-click context on images */
+            -webkit-user-drag: none; /* Prevents dragging image to desktop */
             user-drag: none;
         }
 
         /* --- SECURITY LAYER 3: PRINT PROTECTION --- */
         @media print {
-            body * {
-                display: none !important;
-            }
-            body::after {
-                content: "This content is protected. Printing and screenshots are not allowed.";
-                display: block !important;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 24px;
-                color: black;
-            }
+            body { display: none !important; }
         }
 
         /* 1. Smooth Scroll */
@@ -872,11 +860,10 @@
                     navigator.clipboard.writeText(''); 
                 }
                 
-                // Restore after delay
+                // Restore after delay - NO ALERT
                 setTimeout(() => {
                     document.body.style.visibility = 'visible';
                     document.getElementById('privacy-screen').classList.add('hidden');
-                    alert("Screenshots are restricted on this page.");
                 }, 1000);
                 
                 return false;
@@ -893,8 +880,8 @@
         // Additional listener for KeyUp to catch PrtSc in some browsers
         document.addEventListener('keyup', (e) => {
             if (e.key === 'PrintScreen') {
-                navigator.clipboard.writeText('');
-                alert("Screenshots are restricted.");
+                if (navigator.clipboard) navigator.clipboard.writeText('');
+                // NO ALERT
             }
         });
 
