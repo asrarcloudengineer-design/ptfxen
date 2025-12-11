@@ -25,6 +25,19 @@
             padding: 0;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            
+            /* --- SECURITY LAYER 1: DISABLE SELECTION --- */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+        }
+
+        /* --- SECURITY LAYER 2: DISABLE IMAGE DRAGGING/INTERACTION --- */
+        img {
+            pointer-events: none; /* Disables right-click context on images specifically */
+            -webkit-user-drag: none; /* Prevents dragging image to desktop */
+            user-drag: none;
         }
 
         /* 1. Smooth Scroll */
@@ -445,6 +458,10 @@
             }
         }
 
+        /* Journey Morphing Text Classes */
+        .journey-morph-title { opacity: 0; }
+        .journey-morph-content { opacity: 0; }
+
         .dark-content-glow {
             position: absolute;
             width: 120%;
@@ -471,10 +488,6 @@
         }
         .glow-blue { background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(255,255,255,0) 70%); }
         .glow-teal { background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, rgba(255,255,255,0) 70%); }
-
-        /* Journey Morphing Text Classes */
-        .journey-morph-title { opacity: 0; }
-        .journey-morph-content { opacity: 0; }
         
     </style>
 </head>
@@ -788,6 +801,18 @@
 
     <!-- Standard JS for DOM Animations -->
     <script>
+        // --- SECURITY LAYER 3: DISABLE KEYBOARD SHORTCUTS ---
+        document.addEventListener('contextmenu', event => event.preventDefault()); // Disable right-click
+        document.onkeydown = function(e) {
+            // Disable F12, Ctrl+U, Ctrl+Shift+I, Ctrl+S
+            if(e.keyCode == 123) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
+        }
+
         // --- 1. POPULATE EXPERTISE GRID --- //
         const setupGrid = () => {
             const container = document.getElementById('expert-grid');
