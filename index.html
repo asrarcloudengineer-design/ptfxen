@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dr. Ehtesham Syed | MBBS</title>
     
+    <!-- Script to suppress Tailwind CDN production warning for cleaner console -->
+    <script>
+        const originalWarn = console.warn;
+        console.warn = (...args) => {
+            if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
+            originalWarn.apply(console, args);
+        };
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -27,17 +36,34 @@
             -moz-osx-font-smoothing: grayscale;
             
             /* --- SECURITY LAYER 1: DISABLE SELECTION --- */
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* IE10+/Edge */
-            user-select: none; /* Standard */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* --- SECURITY LAYER 2: DISABLE IMAGE DRAGGING/INTERACTION --- */
         img {
-            pointer-events: none; /* Disables right-click context on images specifically */
-            -webkit-user-drag: none; /* Prevents dragging image to desktop */
+            pointer-events: none;
+            -webkit-user-drag: none;
             user-drag: none;
+        }
+
+        /* --- SECURITY LAYER 3: PRINT PROTECTION --- */
+        @media print {
+            body * {
+                display: none !important;
+            }
+            body::after {
+                content: "This content is protected. Printing and screenshots are not allowed.";
+                display: block !important;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 24px;
+                color: black;
+            }
         }
 
         /* 1. Smooth Scroll */
@@ -489,9 +515,29 @@
         .glow-blue { background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(255,255,255,0) 70%); }
         .glow-teal { background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, rgba(255,255,255,0) 70%); }
         
+        /* --- SECURITY LAYER 4: PRIVACY SCREENS --- */
+        /* Privacy Blur on window inactive */
+        .privacy-blur {
+            filter: blur(20px) grayscale(100%);
+            transition: filter 0.2s ease;
+        }
+        
+        /* Privacy Overlay for PrintScreen attempts or blur */
+        #privacy-screen {
+            backdrop-filter: blur(50px);
+            background: rgba(0,0,0,0.95);
+        }
+        
     </style>
 </head>
 <body>
+
+    <!-- Privacy Overlay (Hidden by default) -->
+    <div id="privacy-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-white hidden">
+        <svg class="w-16 h-16 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        <h2 class="text-2xl font-bold mb-2">Content Protected</h2>
+        <p class="text-gray-400">Screen capture is restricted on this portfolio.</p>
+    </div>
 
     <!-- Apple Style Dynamic Mesh Background -->
     <div class="mesh-background">
@@ -812,6 +858,20 @@
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
             if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
         }
+
+        // --- SECURITY LAYER 4: PRIVACY BLUR (Anti-Screenshot Deterrent) ---
+        // Blurs site when user switches windows/tabs (e.g. to open snipping tool)
+        window.addEventListener('blur', () => {
+            document.body.classList.add('privacy-blur');
+            document.getElementById('privacy-screen').classList.remove('hidden');
+            document.title = 'Protected Content';
+        });
+        
+        window.addEventListener('focus', () => {
+            document.body.classList.remove('privacy-blur');
+            document.getElementById('privacy-screen').classList.add('hidden');
+            document.title = 'Dr. Ehtesham Syed | MBBS';
+        });
 
         // --- 1. POPULATE EXPERTISE GRID --- //
         const setupGrid = () => {
